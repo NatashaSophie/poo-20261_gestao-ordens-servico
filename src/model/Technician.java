@@ -1,27 +1,62 @@
 package model;
 
 // Classe Technician: representa o tecnico responsavel pela execucao do servico.
-// Funcao no dominio: registrar quem vai atender a OS e sua especialidade.
-// Exemplos de objetos: new Technician("Joao", "555.666.777-88", "Eletronica"),
-// new Technician("Paula", "666.777.888-99", "Informatica"),
-// new Technician("Rafael", "777.888.999-00", "Hardware").
+// Responsabilidade da classe: manter dados basicos do tecnico de forma valida.
 public class Technician {
-    // Atributo name: nome do tecnico, usado em exibicao e identificacao humana.
-    String name;
-    // Atributo document: documento do tecnico, usado como identificador.
-    String document;
-    // Atributo specialty: area de atuacao do tecnico.
-    String specialty;
+    // Encapsulamento: atributos privados evitam alteracao direta sem validacao.
+    private String name;
+    private String document;
+    private String specialty;
 
-    // Construtor: cria o objeto Technician com seus dados basicos.
+    // Construtor: cria o tecnico com informacoes obrigatorias.
+    // Assim, o objeto ja nasce consistente para uso futuro.
     public Technician(String name, String document, String specialty) {
-        this.name = name;
-        this.document = document;
-        this.specialty = specialty;
+        setName(name);
+        setDocument(document);
+        setSpecialty(specialty);
     }
 
-    // Metodo summary: retorna uma representacao simples do tecnico para exibicao.
-    public String summary() {
-        return name + " (" + specialty + ")";
+    // Getter: leitura segura do nome.
+    public String getName() {
+        return name;
+    }
+
+    // Setter: valida antes de aceitar o valor.
+    public void setName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome do tecnico nao pode ser vazio.");
+        }
+        this.name = name.trim();
+    }
+
+    // Getter: leitura segura do documento.
+    public String getDocument() {
+        return document;
+    }
+
+    // Setter: valida antes de aceitar o valor.
+    public void setDocument(String document) {
+        if (document == null || document.trim().isEmpty()) {
+            throw new IllegalArgumentException("Documento do tecnico nao pode ser vazio.");
+        }
+        this.document = document.trim();
+    }
+
+    // Getter: leitura segura da especialidade.
+    public String getSpecialty() {
+        return specialty;
+    }
+
+    // Setter: valida antes de aceitar o valor.
+    public void setSpecialty(String specialty) {
+        if (specialty == null || specialty.trim().isEmpty()) {
+            throw new IllegalArgumentException("Especialidade do tecnico nao pode ser vazia.");
+        }
+        this.specialty = specialty.trim();
+    }
+
+    // Metodo showTechnicianInfo: resumo simples para exibicao.
+    public String showTechnicianInfo() {
+        return "Tecnico: " + name + " | Especialidade: " + specialty;
     }
 }
