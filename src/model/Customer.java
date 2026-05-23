@@ -1,48 +1,30 @@
 package model;
 
-// Classe Customer: representa o cliente que abre a ordem de servico.
-// Responsabilidade da classe: guardar dados basicos do cliente de forma valida.
-public class Customer {
-    // Encapsulamento: atributos privados impedem acesso direto de outras classes.
-    // Assim, toda alteracao passa por validacoes nos setters.
-    private String name;
-    private String phone;
+// Customer herda de Person (superclasse) e se torna uma subclasse especializada.
+// A heranca reaproveita nome e telefone, evitando duplicacao de codigo.
+// O construtor usa super() para inicializar a parte herdada do objeto.
+public class Customer extends Person {
+    private String email;
 
-    // Construtor: cria o cliente com informacoes obrigatorias.
-    // Ao usar o construtor, garantimos que o objeto nasce consistente.
-    public Customer(String name, String phone) {
-        setName(name);
-        setPhone(phone);
+    public Customer(String name, String phone, String email) {
+        super(name, phone);
+        setEmail(email);
     }
 
-    // Getter: permite consultar o nome sem expor o atributo diretamente.
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    // Setter: valida o dado antes de salvar.
-    public void setName(String name) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome do cliente nao pode ser vazio.");
+    public void setEmail(String email) {
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("Email do cliente nao pode ser vazio.");
         }
-        this.name = name.trim();
+        this.email = email.trim();
     }
 
-    // Getter: permite consultar o telefone sem expor o atributo diretamente.
-    public String getPhone() {
-        return phone;
-    }
-
-    // Setter: valida o dado antes de salvar.
-    public void setPhone(String phone) {
-        if (phone == null || phone.trim().isEmpty()) {
-            throw new IllegalArgumentException("Telefone do cliente nao pode ser vazio.");
-        }
-        this.phone = phone.trim();
-    }
-
-    // Metodo showCustomerInfo: retorna um resumo simples para exibicao.
-    public String showCustomerInfo() {
-        return "Cliente: " + name + " | Fone: " + phone;
+    // Sobrescrita: cada subclasse define como mostrar suas informacoes.
+    @Override
+    public String showInfo() {
+        return "Cliente: " + getName() + " | Fone: " + getPhone() + " | Email: " + email;
     }
 }

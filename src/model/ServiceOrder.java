@@ -2,26 +2,28 @@ package model;
 
 // Classe ServiceOrder: representa a ordem de servico aberta para um atendimento.
 // Funcao no dominio: registrar a necessidade do cliente e o estado do atendimento.
-// Exemplos de objetos: new ServiceOrder(1, "Nao liga", 250.0, customer, equipment).
-public class ServiceOrder {
+// A classe usa composicao: possui cliente, equipamento e tecnico como partes do todo.
+public class ServiceOrder implements Printable {
     // Encapsulamento: atributos privados preservam o controle da classe.
     // A classe e responsavel por manter regras simples do dominio.
     private int number;
     private String description;
-    private double estimatedValue;
     private String status;
     private Customer customer;
     private Equipment equipment;
+    private Technician technician;
+    private java.util.List<ServiceItem> items;
 
     // Construtor: cria a OS com dados essenciais.
-    // A composicao aparece aqui: a OS possui um cliente e um equipamento.
-    public ServiceOrder(int number, String description, double estimatedValue,
-            Customer customer, Equipment equipment) {
+    // A composicao aparece aqui: a OS possui cliente, equipamento e tecnico.
+    public ServiceOrder(int number, String description,
+            Customer customer, Equipment equipment, Technician technician) {
         setNumber(number);
         setDescription(description);
-        setEstimatedValue(estimatedValue);
         setCustomer(customer);
         setEquipment(equipment);
+        setTechnician(technician);
+        this.items = new java.util.ArrayList<>();
         // Status inicial definido pela propria classe (responsabilidade).
         this.status = "Aberta";
     }
@@ -50,19 +52,6 @@ public class ServiceOrder {
             throw new IllegalArgumentException("Descricao nao pode ser vazia.");
         }
         this.description = description.trim();
-    }
-
-    // Getter do valor estimado.
-    public double getEstimatedValue() {
-        return estimatedValue;
-    }
-
-    // Setter com validacao simples.
-    public void setEstimatedValue(double estimatedValue) {
-        if (estimatedValue < 0) {
-            throw new IllegalArgumentException("Valor estimado nao pode ser negativo.");
-        }
-        this.estimatedValue = estimatedValue;
     }
 
     // Getter do status.
@@ -96,18 +85,75 @@ public class ServiceOrder {
         this.equipment = equipment;
     }
 
+    // Getter do tecnico.
+    public Technician getTechnician() {
+        return technician;
+    }
+
+    // Setter com validacao simples.
+    public void setTechnician(Technician technician) {
+        if (technician == null) {
+            throw new IllegalArgumentException("Tecnico nao pode ser nulo.");
+        }
+        this.technician = technician;
+    }
+
+    public java.util.List<ServiceItem> getItems() {
+        return java.util.Collections.unmodifiableList(items);
+    }
+
+    public void addItem(ServiceItem item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Item de servico nao pode ser nulo.");
+        }
+        items.add(item);
+    }
+
+    public void removeItem(ServiceItem item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Item de servico nao pode ser nulo.");
+        }
+        items.remove(item);
+    }
+
+    public double getTotalValue() {
+        double total = 0.0;
+        for (ServiceItem item : items) {
+            total += item.calculateValue();
+        }
+        return total;
+    }
+
     // Metodo finishOrder: muda o estado da OS de forma controlada.
     public void finishOrder() {
         this.status = "Finalizada";
     }
 
     // Metodo showOrderSummary: resumo completo da OS para exibicao.
-    // Composicao de metodos: usamos metodos do cliente e do equipamento.
+    // Composicao de metodos: usamos metodos do cliente, equipamento e tecnico.
     public String showOrderSummary() {
-        return "OS #" + number + " - " + description
-                + " | Valor estimado: R$ " + estimatedValue
-                + " | Status: " + status
-                + "\n" + customer.showCustomerInfo()
-                + "\n" + equipment.showEquipmentInfo();
+        StringBuilder summary = new StringBuilder();
+        summary.append("OS #").append(number).append(" - ").append(description)
+                .append(" | Status: ").append(status)
+                .append("\n").append(customer.showInfo())
+                .append("\n").append(equipment.showEquipmentInfo())
+                .append("\n").append(technician.showInfo());
+
+        if (!items.isEmpty()) {
+            summary.append("\nItens de servico:");
+            for (ServiceItem item : items) {
+                summary.append("\n- ").append(item.showItemInfo());
+            }
+            summary.append("\nTotal: R$ ").append(getTotalValue());
+        }
+
+        return summary.toString();
+    }
+
+    // Implementacao do contrato da interface Printable.
+    // A interface define o comportamento e a classe fornece a acao concreta.
+    @Override
+    public void print() {
+        System.out.println(showOrderSummary());
     }
 }

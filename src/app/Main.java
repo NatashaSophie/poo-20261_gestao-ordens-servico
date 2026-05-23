@@ -3,30 +3,39 @@ package app;
 
 // import: permite usar classes de outros pacotes sem escrever o nome completo.
 import model.Customer;
+import model.DiagnosticService;
 import model.Equipment;
+import model.Printable;
+import model.RepairService;
+import model.ServiceItem;
 import model.ServiceOrder;
+import model.Technician;
 
 // class: define um tipo em Java; aqui e o ponto de entrada do programa.
 public class Main {
     // main: metodo especial que a JVM executa primeiro ao iniciar o programa.
     // String[] args: vetor de argumentos da linha de comando (pode ser usado mais tarde).
     public static void main(String[] args) {
-        // Composicao de objetos: a ordem de servico depende de um cliente e de um equipamento.
-        // Cada classe cuida de seus proprios dados (responsabilidade da classe).
-        // Ao criar os objetos com construtor, garantimos que eles ja nascem completos.
-        Customer customer = new Customer("Maria", "(62) 99999-0000");
+        // Heranca: Customer e Technician reutilizam dados comuns da classe abstrata Person.
+        Customer customer = new Customer("Maria", "(62) 99999-0000", "maria@email.com");
+        Technician technician = new Technician("Joao", "(62) 98888-1111", "Hardware");
+
+        // Composicao: a ordem de servico agrega cliente, equipamento e tecnico.
         Equipment equipment = new Equipment("Notebook", "TechBrand", "X1000");
+        ServiceOrder order = new ServiceOrder(1, "Nao liga", customer, equipment, technician);
 
-        // Construtor com validacoes: evita criar uma ordem inconsistente.
-        ServiceOrder order = new ServiceOrder(1, "Nao liga", 250.0, customer, equipment);
+        // Polimorfismo: duas subclasses diferentes tratadas como ServiceItem.
+        ServiceItem diagnostic = new DiagnosticService("Diagnostico basico", 80.0);
+        ServiceItem repair = new RepairService("Troca de conector", 2.5, 120.0);
 
-        // Encapsulamento: acessamos os dados via metodos publicos, nao pelos atributos.
-        System.out.println(order.showOrderSummary());
+        System.out.println(diagnostic.showItemInfo());
+        System.out.println(repair.showItemInfo());
 
-        // Composicao de metodos: um metodo da classe altera o estado da propria classe.
-        order.finishOrder();
+        order.addItem(diagnostic);
+        order.addItem(repair);
 
-        // Estado atualizado apos o metodo terminar a OS.
-        System.out.println(order.showOrderSummary());
+        // Interface: Printable define o contrato; ServiceOrder implementa a acao.
+        Printable printableOrder = order;
+        printableOrder.print();
     }
 }
