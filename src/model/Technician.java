@@ -1,5 +1,7 @@
 package model;
 
+import exception.BusinessException;
+
 // Technician especializa Person com dados de atuacao tecnica.
 // A subclasse reaproveita nome e telefone e adiciona a especialidade.
 public class Technician extends Person {
@@ -16,7 +18,7 @@ public class Technician extends Person {
 
     public void setSpecialty(String specialty) {
         if (specialty == null || specialty.trim().isEmpty()) {
-            throw new IllegalArgumentException("Especialidade do tecnico nao pode ser vazia.");
+            throw new BusinessException("Especialidade do tecnico nao pode ser vazia.");
         }
         this.specialty = specialty.trim();
     }

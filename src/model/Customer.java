@@ -1,5 +1,7 @@
 package model;
 
+import exception.BusinessException;
+
 // Customer herda de Person (superclasse) e se torna uma subclasse especializada.
 // A heranca reaproveita nome e telefone, evitando duplicacao de codigo.
 // O construtor usa super() para inicializar a parte herdada do objeto.
@@ -17,7 +19,7 @@ public class Customer extends Person {
 
     public void setEmail(String email) {
         if (email == null || email.trim().isEmpty()) {
-            throw new IllegalArgumentException("Email do cliente nao pode ser vazio.");
+            throw new BusinessException("Email do cliente nao pode ser vazio.");
         }
         this.email = email.trim();
     }

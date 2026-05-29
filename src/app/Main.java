@@ -2,40 +2,27 @@
 package app;
 
 // import: permite usar classes de outros pacotes sem escrever o nome completo.
-import model.Customer;
-import model.DiagnosticService;
-import model.Equipment;
-import model.Printable;
-import model.RepairService;
-import model.ServiceItem;
-import model.ServiceOrder;
-import model.Technician;
+import exception.BusinessException;
+import service.ServiceOrderFacade;
 
 // class: define um tipo em Java; aqui e o ponto de entrada do programa.
 public class Main {
     // main: metodo especial que a JVM executa primeiro ao iniciar o programa.
     // String[] args: vetor de argumentos da linha de comando (pode ser usado mais tarde).
     public static void main(String[] args) {
-        // Heranca: Customer e Technician reutilizam dados comuns da classe abstrata Person.
-        Customer customer = new Customer("Maria", "(62) 99999-0000", "maria@email.com");
-        Technician technician = new Technician("Joao", "(62) 98888-1111", "Hardware");
+        // Facade: centraliza o fluxo do exemplo e deixa a Main mais simples.
+        ServiceOrderFacade facade = new ServiceOrderFacade();
 
-        // Composicao: a ordem de servico agrega cliente, equipamento e tecnico.
-        Equipment equipment = new Equipment("Notebook", "TechBrand", "X1000");
-        ServiceOrder order = new ServiceOrder(1, "Nao liga", customer, equipment, technician);
-
-        // Polimorfismo: duas subclasses diferentes tratadas como ServiceItem.
-        ServiceItem diagnostic = new DiagnosticService("Diagnostico basico", 80.0);
-        ServiceItem repair = new RepairService("Troca de conector", 2.5, 120.0);
-
-        System.out.println(diagnostic.showItemInfo());
-        System.out.println(repair.showItemInfo());
-
-        order.addItem(diagnostic);
-        order.addItem(repair);
-
-        // Interface: Printable define o contrato; ServiceOrder implementa a acao.
-        Printable printableOrder = order;
-        printableOrder.print();
+        // try/catch: bloco para tratar excecoes e manter o programa controlado.
+        try {
+            // Executa o exemplo completo do sistema.
+            facade.runExample();
+        } catch (BusinessException ex) {
+            // Excecao de negocio: erro esperado por violacao de regra do dominio.
+            System.out.println("Erro de negocio: " + ex.getMessage());
+        } catch (Exception ex) {
+            // Excecao inesperada: erro nao previsto que precisa ser investigado.
+            System.out.println("Erro inesperado: " + ex.getMessage());
+        }
     }
 }

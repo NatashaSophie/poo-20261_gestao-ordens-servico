@@ -1,6 +1,7 @@
 /out/
 /bin/
 *.class
-src/aula-01
-src/aula-02
-src/aula-03
+src/aula-01/
+src/aula-02/
+src/aula-03/
+src/aula-04/

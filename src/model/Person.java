@@ -1,5 +1,7 @@
 package model;
 
+import exception.BusinessException;
+
 // Classe abstrata Person: generaliza dados comuns de pessoas no dominio.
 // Ela nao pode ser instanciada diretamente e serve como base para reutilizacao.
 // Ao centralizar nome e telefone aqui, evitamos duplicacao em Customer e Technician.
@@ -23,7 +25,7 @@ public abstract class Person {
     // Setter com validacao para evitar nome nulo ou vazio.
     public void setName(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome nao pode ser vazio.");
+            throw new BusinessException("Nome nao pode ser vazio.");
         }
         this.name = name.trim();
     }
@@ -36,7 +38,7 @@ public abstract class Person {
     // Setter com validacao para evitar telefone nulo ou vazio.
     public void setPhone(String phone) {
         if (phone == null || phone.trim().isEmpty()) {
-            throw new IllegalArgumentException("Telefone nao pode ser vazio.");
+            throw new BusinessException("Telefone nao pode ser vazio.");
         }
         this.phone = phone.trim();
     }

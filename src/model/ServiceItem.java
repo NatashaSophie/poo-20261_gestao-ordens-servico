@@ -1,5 +1,7 @@
 package model;
 
+import exception.BusinessException;
+
 // Classe abstrata ServiceItem: representa um item de servico generico.
 // Diferentes tipos de servico podem calcular valores de formas distintas.
 // O metodo calculateValue() e abstrato para forcar cada subclasse a definir sua regra.
@@ -16,7 +18,7 @@ public abstract class ServiceItem {
 
     public void setDescription(String description) {
         if (description == null || description.trim().isEmpty()) {
-            throw new IllegalArgumentException("Descricao do servico nao pode ser vazia.");
+            throw new BusinessException("Descricao do servico nao pode ser vazia.");
         }
         this.description = description.trim();
     }

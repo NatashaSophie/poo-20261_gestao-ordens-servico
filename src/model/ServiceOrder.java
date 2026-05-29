@@ -1,5 +1,7 @@
 package model;
 
+import exception.BusinessException;
+
 // Classe ServiceOrder: representa a ordem de servico aberta para um atendimento.
 // Funcao no dominio: registrar a necessidade do cliente e o estado do atendimento.
 // A classe usa composicao: possui cliente, equipamento e tecnico como partes do todo.
@@ -36,7 +38,7 @@ public class ServiceOrder implements Printable {
     // Setter com validacao simples.
     public void setNumber(int number) {
         if (number <= 0) {
-            throw new IllegalArgumentException("Numero da OS deve ser maior que zero.");
+            throw new BusinessException("Numero da OS deve ser maior que zero.");
         }
         this.number = number;
     }
@@ -49,7 +51,7 @@ public class ServiceOrder implements Printable {
     // Setter com validacao simples.
     public void setDescription(String description) {
         if (description == null || description.trim().isEmpty()) {
-            throw new IllegalArgumentException("Descricao nao pode ser vazia.");
+            throw new BusinessException("Descricao nao pode ser vazia.");
         }
         this.description = description.trim();
     }
@@ -67,7 +69,7 @@ public class ServiceOrder implements Printable {
     // Setter com validacao simples.
     public void setCustomer(Customer customer) {
         if (customer == null) {
-            throw new IllegalArgumentException("Cliente nao pode ser nulo.");
+            throw new BusinessException("Cliente nao pode ser nulo.");
         }
         this.customer = customer;
     }
@@ -80,7 +82,7 @@ public class ServiceOrder implements Printable {
     // Setter com validacao simples.
     public void setEquipment(Equipment equipment) {
         if (equipment == null) {
-            throw new IllegalArgumentException("Equipamento nao pode ser nulo.");
+            throw new BusinessException("Equipamento nao pode ser nulo.");
         }
         this.equipment = equipment;
     }
@@ -93,7 +95,7 @@ public class ServiceOrder implements Printable {
     // Setter com validacao simples.
     public void setTechnician(Technician technician) {
         if (technician == null) {
-            throw new IllegalArgumentException("Tecnico nao pode ser nulo.");
+            throw new BusinessException("Tecnico nao pode ser nulo.");
         }
         this.technician = technician;
     }
@@ -104,14 +106,14 @@ public class ServiceOrder implements Printable {
 
     public void addItem(ServiceItem item) {
         if (item == null) {
-            throw new IllegalArgumentException("Item de servico nao pode ser nulo.");
+            throw new BusinessException("Item de servico nao pode ser nulo.");
         }
         items.add(item);
     }
 
     public void removeItem(ServiceItem item) {
         if (item == null) {
-            throw new IllegalArgumentException("Item de servico nao pode ser nulo.");
+            throw new BusinessException("Item de servico nao pode ser nulo.");
         }
         items.remove(item);
     }

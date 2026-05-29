@@ -1,5 +1,7 @@
 package model;
 
+import exception.BusinessException;
+
 // Classe Equipment: representa o equipamento que sera atendido na OS.
 // Funcao no dominio: identificar o item fisico que precisa de servico.
 // Exemplos de objetos: new Equipment("Notebook", "TechBrand", "X1000"),
@@ -28,7 +30,7 @@ public class Equipment {
     // Setter: valida antes de aceitar o valor.
     public void setType(String type) {
         if (type == null || type.trim().isEmpty()) {
-            throw new IllegalArgumentException("Tipo do equipamento nao pode ser vazio.");
+            throw new BusinessException("Tipo do equipamento nao pode ser vazio.");
         }
         this.type = type.trim();
     }
@@ -41,7 +43,7 @@ public class Equipment {
     // Setter: valida antes de aceitar o valor.
     public void setBrand(String brand) {
         if (brand == null || brand.trim().isEmpty()) {
-            throw new IllegalArgumentException("Marca do equipamento nao pode ser vazia.");
+            throw new BusinessException("Marca do equipamento nao pode ser vazia.");
         }
         this.brand = brand.trim();
     }
@@ -54,7 +56,7 @@ public class Equipment {
     // Setter: valida antes de aceitar o valor.
     public void setModel(String model) {
         if (model == null || model.trim().isEmpty()) {
-            throw new IllegalArgumentException("Modelo do equipamento nao pode ser vazio.");
+            throw new BusinessException("Modelo do equipamento nao pode ser vazio.");
         }
         this.model = model.trim();
     }

@@ -1,5 +1,7 @@
 package model;
 
+import exception.BusinessException;
+
 // DiagnosticService: especializacao de ServiceItem com valor fixo.
 // Polimorfismo: a chamada calculateValue() usa a versao desta classe.
 public class DiagnosticService extends ServiceItem {
@@ -16,7 +18,7 @@ public class DiagnosticService extends ServiceItem {
 
     public void setFixedValue(double fixedValue) {
         if (fixedValue < 0) {
-            throw new IllegalArgumentException("Valor do diagnostico nao pode ser negativo.");
+            throw new BusinessException("Valor do diagnostico nao pode ser negativo.");
         }
         this.fixedValue = fixedValue;
     }

@@ -1,5 +1,7 @@
 package model;
 
+import exception.BusinessException;
+
 // RepairService: especializacao de ServiceItem com calculo por horas.
 // Mesmo metodo calculateValue(), mas comportamento diferente do diagnostico.
 public class RepairService extends ServiceItem {
@@ -18,7 +20,7 @@ public class RepairService extends ServiceItem {
 
     public void setHours(double hours) {
         if (hours <= 0) {
-            throw new IllegalArgumentException("Horas devem ser maiores que zero.");
+            throw new BusinessException("Horas devem ser maiores que zero.");
         }
         this.hours = hours;
     }
@@ -29,7 +31,7 @@ public class RepairService extends ServiceItem {
 
     public void setHourlyRate(double hourlyRate) {
         if (hourlyRate < 0) {
-            throw new IllegalArgumentException("Valor da hora nao pode ser negativo.");
+            throw new BusinessException("Valor da hora nao pode ser negativo.");
         }
         this.hourlyRate = hourlyRate;
     }
